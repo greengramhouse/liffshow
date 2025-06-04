@@ -1,0 +1,525 @@
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gukkghu Dev - ร้านเครื่องดื่มออนไลน์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+        <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              coffee: {
+                50: "#F5F0E5",
+                100: "#EAE0CC",
+                200: "#D5C2A9",
+                300: "#C1A386",
+                400: "#AC8563",
+                500: "#8D6A4A",
+                600: "#6E5137",
+                700: "#4F3824",
+                800: "#301F11",
+                900: "#1A1006",
+              },
+              tea: {
+                50: "#F2F5E9",
+                100: "#E5EBD3",
+                200: "#CBDAA7",
+                300: "#B1C87B",
+                400: "#97B74F",
+                500: "#7D9A3E",
+                600: "#637B31",
+                700: "#495C25",
+                800: "#2F3D18",
+                900: "#151E0C",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Prompt", sans-serif;
+        background-color: #f5f0e5;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .cart-sidebar {
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+      }
+      .cart-sidebar.open {
+        transform: translateX(0);
+      }
+      .overlay {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease-in-out;
+      }
+      .overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      .category-btn.active {
+        background-color: #8d6a4a;
+        color: white;
+      }
+      .animate-pulse-slow {
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+    </style>
+    
+  </head>
+  <body class="min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-coffee-100 shadow-md py-4 px-6 sticky top-0 z-10">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <img id="profile-img"
+              src="https://i.pravatar.cc/40?img=5"
+              alt="Profile"
+              class="h-10 w-10 rounded-full border-2 border-coffee-600 shadow-sm"
+            />
+          <h1 class="text-2xl font-bold text-coffee-800" id="profile-name">Gukkghu Dev</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            id="cart-button"
+            class="relative p-2 bg-coffee-200 rounded-full hover:bg-coffee-300 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-coffee-700"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+            <span
+              id="cart-count"
+              class="absolute -top-1 -right-1 bg-tea-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              >0</span
+            >
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div
+      class="bg-gradient-to-r from-coffee-600 to-coffee-800 text-white py-16"
+    >
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold mb-4">
+          เครื่องดื่มคุณภาพเพื่อความสุขของคุณ
+        </h2>
+        <p class="text-xl mb-8">
+          เลือกเครื่องดื่มที่คุณชื่นชอบ ส่งตรงถึงบ้านคุณ
+        </p>
+        <a
+          href="#products"
+          class="bg-coffee-100 text-coffee-800 font-bold py-3 px-8 rounded-full hover:bg-coffee-200 transition"
+          >สั่งเลย</a
+        >
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="container mx-auto px-6 py-8">
+      <h2 class="text-3xl font-bold text-center mb-8 text-coffee-800">
+        หมวดหมู่สินค้า
+      </h2>
+      <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <button
+          class="category-btn active px-6 py-2 rounded-full bg-coffee-200 text-coffee-800 font-medium hover:bg-coffee-300 transition"
+          data-category="all"
+        >
+          ทั้งหมด
+        </button>
+        <button
+          class="category-btn px-6 py-2 rounded-full bg-coffee-200 text-coffee-800 font-medium hover:bg-coffee-300 transition"
+          data-category="coffee"
+        >
+          กาแฟ
+        </button>
+        <button
+          class="category-btn px-6 py-2 rounded-full bg-coffee-200 text-coffee-800 font-medium hover:bg-coffee-300 transition"
+          data-category="tea"
+        >
+          ชา
+        </button>
+        <button
+          class="category-btn px-6 py-2 rounded-full bg-coffee-200 text-coffee-800 font-medium hover:bg-coffee-300 transition"
+          data-category="cocoa"
+        >
+          โกโก้
+        </button>
+        <button
+          class="category-btn px-6 py-2 rounded-full bg-coffee-200 text-coffee-800 font-medium hover:bg-coffee-300 transition"
+          data-category="chocolate"
+        >
+          ช็อกโกแลต
+        </button>
+      </div>
+
+      <!-- Products -->
+      <div
+        id="products"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      >
+      <!--    inner Product Card Hear     -->
+        
+      </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div
+      id="overlay"
+      class="overlay fixed inset-0 bg-black bg-opacity-50 z-20"
+    ></div>
+    <div
+      id="cart-sidebar"
+      class="cart-sidebar fixed top-0 right-0 h-full w-full sm:w-96 bg-coffee-50 shadow-lg z-30 overflow-y-auto"
+    >
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-coffee-800">ตะกร้าสินค้า</h2>
+          <button id="close-cart" class="p-2 rounded-full hover:bg-coffee-100">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-coffee-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div id="cart-items" class="space-y-4 mb-6">
+          <div class="text-center text-coffee-500 py-8">ตะกร้าว่างเปล่า</div>
+        </div>
+        <div class="border-t border-coffee-200 pt-4">
+        <div class="mt-4 p-4 bg-coffee-50 rounded-lg text-coffee-800 space-y-2 border border-coffee-200">
+          <div class="flex justify-between">
+            <span>ยอดรวม (ไม่รวมภาษี):</span>
+            <span id="cart-total">฿0.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span>ส่วนลดทั้งหมด:</span>
+            <span id="cart-discount" class="text-green-600">฿0.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span>ภาษีมูลค่าเพิ่ม (7%):</span>
+            <span id="cart-vat">฿0.00</span>
+          </div>
+          <hr class="border-t border-coffee-200 my-2" />
+          <div class="flex justify-between font-semibold text-lg">
+            <span>ยอดสุทธิที่ต้องชำระ:</span>
+            <span id="cart-grand-total">฿0.00</span>
+          </div>
+        </div>
+
+
+
+          <!-- <div class="flex justify-between text-lg font-semibold mb-4">
+            <span class="text-coffee-800">รวมทั้งหมด:</span>
+            <span id="cart-total" class="text-coffee-800">฿0.00</span>
+          </div> -->
+          <button
+            id="checkout-btn"
+            class="w-full bg-coffee-600 text-white py-3 rounded-lg font-bold hover:bg-coffee-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            disabled=""
+          >
+            ชำระเงิน
+          </button>
+        </div>
+      </div>
+    </div>
+
+<!-- Checkout Modal -->
+<div
+  id="checkout-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-0 hidden"
+>
+  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+  <div
+    class="bg-coffee-50 rounded-lg w-full max-w-md z-10 overflow-hidden max-h-[90vh] flex flex-col"
+  >
+    <div class="p-6 overflow-auto flex-1">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold text-coffee-800">
+          สรุปรายการสั่งซื้อ
+        </h3>
+        <button
+          id="close-checkout"
+          class="p-1 rounded-full hover:bg-coffee-100"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-coffee-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Item List -->
+      <div
+        id="checkout-items"
+        class="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1"
+      >
+        <!-- Dynamically inserted items -->
+      </div>
+
+      <!-- Total -->
+      <div class="border-t border-b border-coffee-200 py-3 mb-4">
+        <div class="flex justify-between font-semibold text-coffee-800">
+          <span>รวมทั้งหมด:</span>
+          <span id="checkout-total">฿0.00</span>
+        </div>
+      </div>
+
+      <!-- QR Code -->
+      <div class="text-center mb-4">
+        <p class="text-coffee-700 mb-2">สแกน QR Code เพื่อชำระเงิน</p>
+        <div id="qrcode" class="mx-auto flex justify-center"></div>
+        <p class="text-sm text-coffee-500 mt-2">พร้อมเพย์</p>
+      </div>
+    </div>
+
+    <!-- Confirm Button -->
+    <div class="px-6 pb-6">
+      <button
+        id="complete-order"
+        class="w-full bg-tea-600 text-white py-3 rounded-lg font-bold hover:bg-tea-700 transition"
+      >
+        ยืนยันการชำระเงิน
+      </button>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Thank You Modal -->
+    <div
+      id="thank-you-modal"
+      class="fixed inset-0 flex items-center justify-center z-50 hidden"
+    >
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div class="bg-coffee-50 rounded-lg w-full max-w-md mx-4 z-10">
+        <div class="p-6 text-center">
+          <div
+            class="w-20 h-20 mx-auto mb-4 bg-tea-100 rounded-full flex items-center justify-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-tea-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-coffee-800 mb-2">
+            ขอบคุณสำหรับการสั่งซื้อ!
+          </h3>
+          <p class="text-coffee-600 mb-6">
+            คำสั่งซื้อของคุณได้รับการยืนยันแล้ว
+          </p>
+          <button
+            id="close-thank-you"
+            class="w-full bg-coffee-600 text-white py-3 rounded-lg font-bold hover:bg-coffee-700 transition"
+          >
+            กลับไปหน้าร้านค้า
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order History Modal -->
+    <div
+      id="order-history-modal"
+      class="fixed inset-0 flex items-center justify-center z-50 hidden"
+    >
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div
+        class="bg-coffee-50 rounded-lg w-full max-w-2xl mx-4 z-10 overflow-hidden"
+      >
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-bold text-coffee-800">
+              ประวัติการสั่งซื้อ <span class="text-md font-semibold text-coffee-600" id="lengthOrder"> </span>
+            </h3>
+            <button
+              id="close-history"
+              class="p-1 rounded-full hover:bg-coffee-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-coffee-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div
+            id="order-history-items"
+            class="space-y-4 mb-4 max-h-96 overflow-y-auto"
+          >
+            <!-- Order history items will be dynamically inserted here -->
+          </div>
+          <button
+            id="close-history-btn"
+            class="w-full bg-coffee-600 text-white py-3 rounded-lg font-bold hover:bg-coffee-700 transition"
+          >
+            ปิด
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      class="fixed bottom-6 right-6 bg-coffee-600 text-white p-3 rounded-full shadow-lg hover:bg-coffee-700 transition z-10"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+    </button>
+
+    <footer class="bg-coffee-800 text-white py-8 mt-16">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-wrap justify-between">
+          <div class="w-full md:w-1/3 mb-6 md:mb-0">
+            <h3 class="text-xl font-bold mb-4">Gukkghu Dev</h3>
+            <p class="text-coffee-100">เครื่องดื่มคุณภาพเพื่อความสุขของคุณ</p>
+          </div>
+          <div class="w-full md:w-1/3 mb-6 md:mb-0">
+            <h3 class="text-xl font-bold mb-4">ติดต่อเรา</h3>
+            <p class="text-coffee-100">อีเมล: info@brewhaven.com</p>
+            <p class="text-coffee-100">โทร: 02-123-4567</p>
+          </div>
+          <div class="w-full md:w-1/3">
+            <h3 class="text-xl font-bold mb-4">ติดตามเรา</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="text-white hover:text-coffee-200">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" class="text-white hover:text-coffee-200">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                  ></path>
+                </svg>
+              </a>
+              <a href="#" class="text-white hover:text-coffee-200">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-coffee-700 mt-8 pt-6 text-center text-coffee-300"
+        >
+          <p>© 2025 Gukkghu Dev. สงวนลิขสิทธิ์ทั้งหมด.</p>
+        </div>
+      </div>
+    </footer>
+    
+    <div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+      <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    
+    
+    <script src="scriptokindex.js"></script>
+
+    
+  </body>
+</html>

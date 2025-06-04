@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns/website#">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>welcome</title>
+</head>
+
+<style>
+  body {
+    background-image: url('https://i.giphy.com/Kmw0YG1XW6ATVyywYH.webp');
+    background-size: cover; /* Ensures the background image covers the entire screen */
+    background-position: center; /* Keeps the image centered */
+    background-attachment: fixed; /* Ensures the background doesn't scroll with the content */
+  }
+</style>
+
+<body class="min-h-screen flex items-center justify-center bg-cover bg-center">
+  <div class="relative bg-black bg-opacity-50 rounded-lg p-6">
+    <h1 class="text-white text-lg font-mono text-center uppercase">
+      Welcome to Share message!
+    </h1>
+      
+
+</div>
+
+  <script>
+   document.addEventListener('DOMContentLoaded', async function () {
+      // function share(e){
+      liff.init({liffId: "1657704109-5AwJQQl2"}, function () {
+        liff.ready.then(async() => {
+          if (liff.isLoggedIn()) {
+
+            var ss = getParameterByName("key")
+            console.log("ss ",ss)
+
+            if (ss === "a4") {
+              var monthsend = getParameterByName("month")
+              console.log(monthsend)
+              let highlightedDates = fetchData(monthsend);
+              console.log(highlightedDates)
+
+
+            }else if(ss === "pay") {
+              setTimeout(() => {
+                window.location.href = "https://sharetargetok.glitch.me/payment.html";
+              }, 3000); // 1000 = 1 วินาที
+            } else if(ss === "coffee") {
+              setTimeout(() => {
+                window.location.href = "https://sharetargetok.glitch.me/coffeshop.html";
+              }, 3000); // 1000 = 1 วินาที
+            }
+
+            else if (ss === "sendpdf") {
+  const pdfUrl = getParameterByName("pdf");
+
+  // แสดง SweetAlert2 เพื่อกรอกข้อมูล
+  const { value: formValues } = await Swal.fire({
+    title: "ส่งเอกสาร PDF",
+    html:
+      '<input id="swal-input1" class="swal2-input" style="width: 85%" placeholder="ชื่อผู้รับ">' +
+      '<textarea id="swal-input2" class="swal2-textarea" style="width: 85%;" placeholder="รายละเอียดเพิ่มเติม(ระบุข้อความเพื่อใช้แสดงให้ผู้รับได้รับทราบ)"></textarea>',
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonText: "คลิกเลือกรายชื่อที่ต้องการ Share",
+    cancelButtonText: "ยกเลิก",
+    preConfirm: () => {
+      const recipient = document.getElementById("swal-input1").value.trim();
+      const detail = document.getElementById("swal-input2").value.trim();
+      if (!recipient || !detail) {
+        Swal.showValidationMessage("กรุณากรอกทั้งชื่อผู้รับและรายละเอียด");
+        return false;
+      }
+      return { recipient, detail };
+    }
+  });
+
+  // ถ้ากดยืนยันและกรอกครบ
+  if (formValues) {
+    const { recipient, detail } = formValues;
+
+    const flexMessage = [{
+      type: "flex",
+      altText: "คุณมีไฟล์ PDF ใหม่",
+      contents: {
+  type: "bubble",
+  hero: {
+    type: "image",
+    url: "https://res.cloudinary.com/gukkghu/image/upload/v1646575846/gukkghu/%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%AD%E0%B8%AD%E0%B8%81%E0%B9%81%E0%B8%9A%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A1%E0%B8%B5%E0%B8%8A%E0%B8%B7%E0%B9%88%E0%B8%AD_aytvpq.png", // 👈 เปลี่ยนเป็นลิงก์โลโก้จริง
+    size: "3xl",
+    aspectRatio: "28:18",
+    aspectMode: "fit",
+  },
+  body: {
+    type: "box",
+    layout: "vertical",
+    contents: [
+      {
+        type: "text",
+        text: "📄 หนังสือรับใหม่",
+        weight: "bold",
+        size: "lg",
+        margin: "md"
+      },
+      {
+        type: "text",
+        text: `เรียน ${recipient}`,
+        size: "sm",
+        wrap: true,
+        margin: "sm"
+      },
+      {
+        type: "text",
+        text: detail,
+        size: "sm",
+        wrap: true,
+        margin: "sm"
+      },
+      {
+        type: "button",
+        style: "primary",
+        color: "#C2185B", // 🎀 ชมพูเข้ม
+        action: {
+          type: "uri",
+          label: "เปิด PDF",
+          uri: pdfUrl
+        },
+        margin: "lg"
+      }
+    ]
+  },
+  footer: {
+    type: "box",
+    layout: "vertical",
+    contents: [
+      {
+        type: "text",
+        text: "ธุรการโรงเรียนชุมวัดไทยงาม",
+        align: "center",
+        weight: "bold",
+        size: "sm",
+        color: "#ffffff",
+        wrap: true
+      }
+    ],
+    backgroundColor: "#F48FB1", // 💗 ชมพูหวาน
+    paddingAll: "12px"
+  }
+}
+
+    }];
+
+    await shareflex(flexMessage);
+  }
+}
+
+            
+            else if (ss === "pdf") {
+  const pdfUrl = getParameterByName("pdf");
+  const title = getParameterByName("title") || "-";
+  const numberbook = getParameterByName("numberbook") || "-";
+  const atthRaw = getParameterByName("atth_a") || "";
+  const sendDate = getParameterByName("send_date") || "-";
+  const receiveDate = getParameterByName("receive_date") || "-";
+  const speed = getParameterByName("speed") || "-";
+  const bookno = getParameterByName("bookno") || "-";
+  const atthUrls = atthRaw.split(/[\n,]+/).filter(u => u.trim() !== "");
+              
+  const shareUrl = `https://liff.line.me/1657704109-5AwJQQl2/?key=sendpdf&pdf=${pdfUrl}`;           
+  console.log(shareUrl)
+
+  const fx = [{
+    type: "flex",
+    altText: `เอกสาร: ${title}`,
+    contents: {
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "vertical",
+        contents: [
+          {
+            type: "text",
+            text: "ระบบงานธุรการ",
+            weight: "bold",
+            color: "#1DB446",
+            size: "sm"
+          },
+          {
+            type: "text",
+            text: "โรงเรียนชุมชนวัดไทยงาม",
+            weight: "bold",
+            size: "xl",
+            margin: "md"
+          },
+          {
+            type: "text",
+            text: "ตำบลโคกแย้ อำเภอหนองแค จังหวัดสระบุรี",
+            size: "xs",
+            color: "#aaaaaa",
+            wrap: true
+          },
+          {
+            type: "separator",
+            margin: "xxl"
+          },
+          {
+            type: "box",
+            layout: "vertical",
+            margin: "xxl",
+            spacing: "sm",
+            contents: [
+              {
+                type: "box",
+                layout: "horizontal",
+                contents: [
+                  { type: "text", text: "เลขที่หนังสือ", size: "sm", color: "#555555", flex: 0 },
+                  { type: "text", text: numberbook, size: "sm", color: "#111111", align: "end" }
+                ]
+              },
+              {
+                type: "box",
+                layout: "horizontal",
+                contents: [
+                  { type: "text", text: "หนังสือลงวันที่", size: "sm", color: "#555555", flex: 0 },
+                  { type: "text", text: sendDate, size: "sm", color: "#111111", align: "end" }
+                ]
+              },
+              {
+                type: "box",
+                layout: "horizontal",
+                contents: [
+                  { type: "text", text: "ลงรับวันที่", size: "sm", color: "#555555", flex: 0 },
+                  { type: "text", text: receiveDate, size: "sm", color: "#111111", align: "end" }
+                ]
+              },
+              {
+                type: "box",
+                layout: "horizontal",
+                contents: [
+                  { type: "text", text: "ชั้นความเร็ว", size: "sm", color: "#555555", flex: 0 },
+                  { type: "text", text: speed, size: "sm", color: "#111111", align: "end" }
+                ]
+              },
+              {
+                type: "separator",
+                margin: "xxl"
+              },
+              {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  {
+                    type: "text",
+                    text: title,
+                    wrap: true,
+                    size: "sm",
+                    align: "center"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+  type: "box",
+  layout: "vertical",
+  spacing: "sm",
+  contents: [
+    {
+  type: "button",
+  action: {
+    type: "uri",
+    label: "PDF หนังสือ",
+    uri: pdfUrl
+  },
+  style: "primary",
+  height: "sm",
+  color: "#03A791"
+},
+{
+  type: "button",
+  action: {
+    type: "uri",
+    label: "share PDF นี้!",
+    uri: shareUrl
+  },
+  style: "primary",
+  height: "sm",
+  color: "#4ED7F1"
+},              
+              ...atthUrls.map((url, i) => ({
+                type: "button",
+                action: {
+                  type: "uri",
+                  label: `สิ่งที่ส่งมาด้วย ${i + 1}`,
+                  uri: url.trim()
+                },
+                height: "sm",
+                style: "link"
+              }))
+            ],
+            offsetTop: "16px"
+          },
+          {
+            type: "separator",
+            margin: "xxl"
+          },
+          {
+            type: "box",
+            layout: "horizontal",
+            margin: "md",
+            contents: [
+              {
+                type: "text",
+                text: "เลขรับหนังสือ",
+                size: "xs",
+                color: "#aaaaaa",
+                flex: 0
+              },
+              {
+                type: "text",
+                text: `#${bookno}`,
+                color: "#aaaaaa",
+                size: "xs",
+                align: "end"
+              }
+            ]
+          }
+        ]
+      },
+      styles: {
+        footer: { separator: true }
+      }
+    }
+  }];
+
+  await shareflex(fx);
+}
+
+
+            else if (ss == "ok") {
+              const urlParams = window.location.href;
+              console.log(urlParams)
+              var da = getParameterByName("name")
+              var pp = getParameterByName("tel")
+              var ll = getParameterByName("email")
+
+
+              var fx = [
+
+                {
+                  "type": "text",
+                  "text": "🅷🅴🅻🅻🅾 𝐦𝐲 𝐧𝐚𝐦𝐞 𝐢𝐬 : \nนายวรุณพร รัตนบุตรชัย " + "\n📱𝐓𝐞𝐥: ⓿❽❶-❼❹❶-⓿❶❽❶" + "\n✉𝖕𝖆𝖙𝖙𝖆𝖓𝖆𝖐𝖚𝖓𝖕𝖆𝖇@𝖌𝖒𝖆𝖎𝖑.𝖈𝖔𝖒 \n🅽🅸🅲🅴 ​ 🆃🅾 " + "\n​ 🅼🅴🅴🆃 ​ 🆈🅾🆄 ",
+                  "sentBy": {
+                    "label": "𝓰𝓾𝓴𝓴𝓰𝓱𝓾",
+                    "iconUrl": "https://cdn.pixabay.com/animation/2022/12/14/08/59/08-59-42-425_512.gif",
+                    "linkUrl": "https://greengramhouse.com/"
+
+                  }
+                }
+              ]
+              //หน่วงเวลา
+              setTimeout(async function () {
+                await shareflex(fx)
+                alert("สำเร็จ")
+              }, 1000);
+
+
+            } else if (ss == "a1") {
+
+              const urlParams = window.location.href;
+              console.log(urlParams)
+              var a95t = getParameterByName("a95t")
+              var a95n = getParameterByName("a95n")
+              var a91t = getParameterByName("a91t")
+              var a91n = getParameterByName("a91n")
+              var e20t = getParameterByName("e20t")
+              var e20n = getParameterByName("e20n")
+              var e85t = getParameterByName("e85t")
+              var e85n = getParameterByName("e85n")
+              var b7t = getParameterByName("b7t")
+              var b7n = getParameterByName("b7n")
+              var ddd = getParameterByName("ddd")
+              var b7pa = getParameterByName("b7pa")
+              var b7pb = getParameterByName("b7pb")
+
+
+
+              let flex_a = [{
+                "type": "flex",
+                "altText": "This is a Flex message",
+                "contents": {
+                  "type": "carousel",
+                  "contents": [
+                    {
+                      "type": "bubble",
+                      "size": "kilo",
+                      "header": {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "backgroundColor": "#00bce4",
+                        "contents": [
+                          {
+                            "type": "image",
+                            "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780260/bangchak_kkllrj.jpg",
+                            "aspectRatio": "137:40",
+                            "size": "md",
+                            "align": "start"
+                          },
+                          {
+                            "type": "text",
+                            "text": "ราคาน้ำมันวันนี้",
+                            "weight": "bold",
+                            "size": "md",
+                            "gravity": "center",
+                            "align": "end",
+                            "color": "#FFFFFF"
+                          }
+                        ]
+                      },
+                      "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "filler"
+                              },
+                              {
+                                "type": "text",
+                                "text": "วันนี้",
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end"
+                              },
+                              {
+                                "type": "text",
+                                "text": "พรุ่งนี้",
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "separator",
+                            "color": "#cccccc",
+                            "margin": "md"
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780260/95_hjegkq.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + a95t,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + a95n,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780260/91_qmkbbw.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + a91t,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + a91n,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780260/e20_rtta5z.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + e20t,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + e20n,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780260/e85_faqcef.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + e85t,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + e85n,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682906322/ApiGetImages_gaplz7.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + b7pa,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + b7pb,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "image",
+                                "url": "https://res.cloudinary.com/gukkghu/image/upload/v1682780261/b7_bka46x.jpg",
+                                "aspectRatio": "120:48"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + b7t,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              },
+                              {
+                                "type": "text",
+                                "text": "" + b7n,
+                                "color": "#111111",
+                                "weight": "bold",
+                                "size": "sm",
+                                "align": "end",
+                                "gravity": "center"
+                              }
+                            ]
+                          },
+                          {
+                            "margin": "md",
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "หมายเหตุ: ราคาขายปลีก กทม. ที่ยังไม่รวมภาษีบำรุงท้องถิ่น กทม. *ราคามีผล ณ วันที่ " + ddd,
+                                "weight": "bold",
+                                "color": "#999999",
+                                "size": "xxs",
+                                "flex": 1,
+                                "wrap": true
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "footer": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "Source : bangchak.co.th",
+                                "color": "#999999",
+                                "size": "xs",
+                                "align": "end",
+                                "flex": 1
+                              }
+                            ],
+                            "margin": "xs"
+                          }
+                        ]
+                      },
+                      "styles": {
+                        "header": {
+                          "backgroundColor": "#6486E3"
+                        },
+                        "body": {
+                          "backgroundColor": "#FEFEFE"
+                        },
+                        "footer": {
+                          "separator": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }]
+              setTimeout(async function () {
+                await SendFlex(flex_a)
+                alert("สำเร็จ")
+              }, 1000);
+
+            } 
+
+          } else {
+        // กรณียังไม่ได้ล๊อกอิน
+        // alert("คุณยังไม่ได้ Login กรุณา Login ก่อน แล้วเข้าเว็บนี้อีกครั้งนะครับ");
+         await Swal.fire({
+            title: "login line please?",
+            text: "Redirect to login.",
+            icon: "question"
+          });
+
+        // พาไปหน้า Login ของ LINE
+        liff.login({ redirectUri: window.location.href }); 
+        // liff.login(); 
+            
+      }
+
+
+
+        })
+      });
+    })
+
+
+    async function SendFlex(flex) {
+
+      // liff.sendMessages(flex).then(function () {
+
+      //   liff.closeWindow();
+      // });
+
+      liff.sendMessages(flex).then(function () {
+        liff.closeWindow();
+      }).catch(function (error) {
+        alert("Error sending message: " + error.message)
+      });
+
+    }
+
+    async function shareflex(flex) {
+      try {
+        // ใช้ await ในการรอผลลัพธ์จาก shareTargetPicker
+        await liff.shareTargetPicker(flex, {
+          isMultiple: true,
+        });
+        await Swal.fire("ส่งสำเร็จ", "เอกสารถูกส่งเรียบร้อยแล้ว", "success");
+        
+        // เมื่อแชร์เสร็จแล้ว, ปิดหน้าต่าง LIFF
+        liff.closeWindow();
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    }
+
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+
+
+    const generateCalendarFlexMessage = (highlightedDates, monthcall) => {
+      const thaiMonths = [
+        'มกราคม',
+        'กุมภาพันธ์',
+        'มีนาคม',
+        'เมษายน',
+        'พฤษภาคม',
+        'มิถุนายน',
+        'กรกฎาคม',
+        'สิงหาคม',
+        'กันยายน',
+        'ตุลาคม',
+        'พฤศจิกายน',
+        'ธันวาคม'
+      ];
+
+      let flextitle;
+      let onYear = new Date().getFullYear()
+      // const currentMonth2 = new Date(onYear+"/"+thaiMonths.indexOf(monthcall)+"/1").getMonth()+1;
+      const currentMonth2 = new Date(onYear + "/" + monthcall + "/1").getMonth();
+
+
+      // Logger.log("x1"+currentMonth2)
+
+      const matchingDates = highlightedDates.filter((dateObj) => {
+        // Logger.log("x2"+new Date(dateObj.date).getMonth())
+        return new Date(dateObj.date).getMonth() === currentMonth2
+      });
+
+
+      if (matchingDates.length > 0) {
+        // flextitle = {
+        //   type: "box",
+        //   layout: "vertical",
+        //   contents: matchingDates.map(dateObj => ({
+        //     type: 'text',
+        //     text:  'ID: '+dateObj.id+ " | " + new Date(dateObj.date).getDate() + " | "+ dateObj.title ,
+        //     color: "#0802A3",
+        //     align: "end"
+        //   }))
+        // }
+
+        flextitle = {
+          "type": "box",
+          "layout": "vertical",
+          "contents": matchingDates.map(dateObj => {
+            const dayOfWeek = new Date(dateObj.date).getDay(); // 0 (Sunday) to 6 (Saturday)
+            let circleColor = "#FE0000"; // Default color (Pink)
+
+            // Check day of the week and assign circle color accordingly
+            if (dayOfWeek === 1) circleColor = "#F4CE14"; // Monday
+            else if (dayOfWeek === 2) circleColor = "#F875AA"; // Tuesday
+            else if (dayOfWeek === 3) circleColor = "#186F65"; // Wednesday
+            else if (dayOfWeek === 4) circleColor = "#FF9B50"; // Thursday
+            else if (dayOfWeek === 5) circleColor = "#00A9FF"; // Friday
+            else if (dayOfWeek === 6) circleColor = "#6528F7"; // Saturday
+
+            return {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": new Date(dateObj.date).getDate().toString(),
+                          "size": "md",
+                          "align": "center",
+                          "color": "#ffffff",
+                          "wrap": true
+                        },
+                        {
+                          "type": "text",
+                          "text": new Date(dateObj.date).toLocaleString('en-us', {month: 'short'}),
+                          "align": "center",
+                          "color": "#FFFFFF"
+                        }
+                      ],
+                      "backgroundColor": circleColor, // กำหนดสีวงกลม
+                      "cornerRadius": "50px",
+                      "width": "45px",
+                      "height": "45px",
+                      "justifyContent": "center",
+                      "alignItems": "center"
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": dateObj.title,
+                          "size": "md",
+                          "color": "#1B6B93",
+                          "wrap": true,
+                          "margin": "none",
+                          "align": "end",
+                          "weight": "bold"
+                        }, {
+                          "type": "text",
+                          "text": "id : " + dateObj.id,
+                          "size": "sm",
+                          "color": "#B15EFF",
+                          "wrap": true,
+                          "margin": "none",
+                          "align": "end",
+                          "weight": "bold"
+                        }
+                      ],
+                      "justifyContent": "center"
+                    }
+                  ],
+                  "margin": "none"
+                }
+              ],
+              "backgroundColor": "#E0F4FF",
+              "cornerRadius": "10px",
+              "margin": "sm",
+              "justifyContent": "center",
+              "height": "50px",
+              "paddingStart": "sm",
+              "paddingEnd": "sm"
+            }//end return
+          }) // end map
+        }
+
+      } else {
+        flextitle = {
+          type: "box",
+          layout: "vertical",
+          contents: [] // ส่งค่าว่างเมื่อไม่มีกิจกรรมในเดือนปัจจุบัน
+        }
+      }
+
+
+      let indexmonth = monthcall
+      const today = new Date("2025" + "/" + indexmonth + "/1");
+      const currentMonth = thaiMonths[today.getMonth()];
+      const currentYear = today.getFullYear();
+
+      /** หาจำนวนวันในเดือนปัจจุบัน */
+      const daysInMonth = new Date(currentYear, today.getMonth() + 1, 0).getDate();
+      // Logger.log(daysInMonth) 
+
+      /** หาวันแรกของเดือนปัจจุบัน */
+      const firstDayOfMonth = new Date(currentYear, today.getMonth(), 1);
+      // Logger.log(firstDayOfMonth)
+
+      /** หาว่าวันที่ 1 ของเดือนเป็นวันอะไร อ - ส */
+      const startingDayOfWeek = firstDayOfMonth.getDay();
+      // Logger.log(startingDayOfWeek)
+
+      const rows = [[]];
+      let currentRow = 0;
+
+      /** หาว่าเดือนก่อนหน้ามีกี่วัน */
+      const lastMonthLastDay = new Date(currentYear, today.getMonth(), 0).getDate();
+      // Logger.log(lastMonthLastDay)
+
+      /** จาก for นี้ ตัวอย่างคือ startingDayOfWeek = 3 lastMonthLastDay = 31 แล้วสั่ง loop เพื่อให้ส่งตัวเลขทีละตัวเริ่มตั้งแต่ เอา lastMonthLastDay - startingDayOfWeek + i + 1 มาคำนวน ในที่นี้จะรอบแรกได้เลข 29 ต่อไป 30 จนครบ จำนวนรอบ หรือ i < startingDayOfWeek  */
+      //วันที่ของเดือนที่ผ่านมาที่เป็นเศษของแถว
+      for (let i = 0; i < startingDayOfWeek; i++) {
+        rows[currentRow].push({
+          type: 'box',
+          layout: 'vertical',
+          borderColor: "#B2C8BA",
+          borderWidth: "2px",
+          alignItems: "center",
+          cornerRadius: "5px",
+          paddingAll: "sm",
+          contents: [
+            {
+              type: 'text',
+              text: `${lastMonthLastDay - startingDayOfWeek + i + 1}`,
+              color: "#EAD7BB",
+              flex: 1,
+            }
+          ]
+        });
+      }
+
+      // ส่วนที่แสดงวันที่
+      for (let i = 1; i <= daysInMonth; i++) {
+        let isHighlightDay = highlightedDates.some(dateObj => dateObj.date === `${currentYear}/${today.getMonth() + 1}/${i}`);
+
+        if (rows[currentRow].length === 7) {
+          currentRow++;
+          rows[currentRow] = [];
+        }
+        rows[currentRow].push({
+          type: 'box',
+          layout: 'vertical',
+          borderColor: "#B2C8BA",
+          borderWidth: "2px",
+          alignItems: "center",
+          cornerRadius: "5px",
+          paddingAll: "sm",
+          contents: [
+            {
+              type: 'text',
+              text: `${i}`,
+              color: isHighlightDay ? "#FF0000" : "#0802A3",
+              flex: 1,
+            }
+          ]
+        });
+      }
+
+      let nextMonthDayCounter = 1;
+      for (let i = rows[currentRow].length; i < 7; i++) {
+        rows[currentRow].push({
+          type: 'box',
+          layout: 'vertical',
+          borderColor: "#B2C8BA",
+          borderWidth: "2px",
+          alignItems: "center",
+          cornerRadius: "5px",
+          paddingAll: "sm",
+          contents: [
+            {
+              type: 'text',
+              text: `${nextMonthDayCounter}`,
+              flex: 1,
+              color: "#EAD7BB"
+            }
+          ]
+        });
+        nextMonthDayCounter++;
+      }
+
+      /** ทดสอบก่อน */
+      const test = rows.map(row => ({row}))
+      console.log(JSON.stringify(test))
+
+      /** นำค่าวันที่ flex ที่เป็นแต่ละ ro มาใใส่ใน bubble */
+      const bodyContents = rows.map(row => ({
+        type: 'box',
+        layout: 'horizontal',
+        contents: row
+      }));
+
+      const bubble = {
+        type: 'bubble',
+        size: "giga",
+        direction: 'ltr',
+        body: {
+          type: 'box',
+          backgroundColor: '#F6F1EE',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: 'Calendar',
+              weight: 'bold',
+              size: 'xl',
+              align: 'center',
+              color: '#1B6B93'
+            },
+            {
+              type: 'text',
+              text: `${currentMonth} ${currentYear}`,
+              size: 'lg',
+              align: 'center',
+              margin: 'md',
+              color: '#1B6B93'
+            },
+            {
+              type: "box",
+              layout: "horizontal",
+              contents: [
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Sun", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#FF0000"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Mon", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#FFFF00"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Tue", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#FF69B4"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Wed", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#008000"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Thu", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#FFA500"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Fri", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#00BFFF"
+                },
+                {
+                  type: "box",
+                  layout: "vertical",
+                  contents: [{type: "text", text: "Sat", align: "center", color: "#FFFFFF"}],
+                  backgroundColor: "#800080"
+                }
+              ],
+            },
+
+            ...bodyContents, flextitle
+          ]
+        },
+
+        footer: {
+          type: "box",
+          layout: "vertical",
+          contents: [
+            {
+              type: "box",
+              layout: "horizontal",
+              contents: [
+                {
+                  type: "text",
+                  text: "ธุรการไทยงาม",
+                  color: "#FFFFFF",
+                  weight: "regular",
+                  align: "end"
+                }
+              ]
+            }
+          ],
+          backgroundColor: "#176B87"
+        }
+      };
+      // Logger.log(JSON.stringify(bubble))
+      return bubble
+    }
+
+
+    const fetchData = (async (inputValue) => {
+      const url = "https://script.google.com/macros/s/AKfycbxKV_DD4J4h3SUbobluJmJQ0-8eHGM3utGhBNE-lk4qQCxQDnJTTh3PRnK7hkgxyeJ8/exec"
+      const formData = new FormData();
+      formData.append('objs', JSON.stringify({name: "xxxxx"}))
+
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+
+      const json = await response.json()
+      console.log(json)
+      console.log(parseInt(inputValue))
+      let bubble = generateCalendarFlexMessage(json, (parseInt(inputValue)))
+
+      let flex_btn = [{
+        "type": "flex",
+        "altText": "calendar",
+        "contents": bubble
+      }]
+      //หน่วงเวลา
+      setTimeout(function () {
+        shareflex(flex_btn)
+        // alert("สำเร็จ")
+      }, 1000);
+
+      return json
+
+    })
+
+
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

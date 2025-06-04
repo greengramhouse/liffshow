@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <title>บัญชีธนาคาร</title>
+    <meta name="description" content="คัดลอกเลขบัญชีธนาคาร" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://img.icons8.com/clouds/100/000000/bank-building.png"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="iton5 LAE TH" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="บัญชีธนาคาร" />
+    <meta
+      property="og:url"
+      content="https://www.facebook.com/stickerlinebyiton5"
+    />
+    <meta property="og:site_name" content="บัญชีธนาคาร" />
+    <meta
+      property="og:image"
+      content="https://img.icons8.com/clouds/100/000000/bank-building.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Prompt", sans-serif;
+        background-color: #f0f9ff;
+      }
+      .bank-option {
+        background-color: #ffffff;
+        border: 2px solid transparent;
+        transition: transform 0.25s ease, box-shadow 0.25s ease,
+          border-color 0.25s;
+      }
+      .bank-option:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px -6px rgba(0, 0, 0, 0.12);
+      }
+      .bank-option.selected {
+        border-color: #f838d8;
+        background-color: #f0faff;
+      }
+
+      .bank-option.selected {
+        animation: pulse 0.3s ease-in-out;
+      }
+      .bank-option.selected {
+        box-shadow: 0 0 0 2px rgba(210, 104, 236, 0.5),
+          0 8px 24px rgba(242, 56, 248, 0.2);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.015);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .copy-btn {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .copy-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(246, 59, 246, 0.3);
+      }
+
+      .copy-btn:active {
+        transform: scale(0.98);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .notification {
+        animation: fadeIn 0.3s ease-out;
+        backdrop-filter: blur(6px);
+        background-color: rgba(220, 252, 231, 0.9); /* soft green */
+      }
+
+      .bank-option.selected {
+        animation: pulse 0.3s ease-in-out;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.015);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen py-8 px-4">
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+      <div
+        class="bg-gradient-to-r from-pink-400 to-pink-500 py-6 px-4 backdrop-blur-sm bg-opacity-80 shadow-md rounded-b-xl"
+      >
+        <div id="user-info" class="flex items-center space-x-2">
+    <!-- รูปโปรไฟล์และชื่อจะแสดงตรงนี้ -->
+  </div>
+        <h1 class="text-white text-center text-2xl font-bold drop-shadow">
+          เลือกบัญชีธนาคาร
+        </h1>
+        <p class="text-sky-100 text-center mt-2">
+          เลือกธนาคารและคัดลอกเลขบัญชี
+        </p>
+      </div>
+
+      <div class="bg-amber-50 p-4 border-b border-amber-100">
+        <div class="flex items-center justify-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-amber-500 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <p class="text-amber-800">
+            ชื่อบัญชี <span class="font-bold">วรุณพร รัตนบุตรชัย</span> สาขา
+            <span class="font-bold">กรุงเทพฯ</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <div class="space-y-3" id="bank-options">
+          <div
+            class="bank-option selected p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="4400479057"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTeA7kxAunPRI0H5chiwlR-6jfNi_6V30fz0KW5y4cCPPZ3kaJu&usqp=CAU"
+                class="w-8 h-8 object-contain"
+                alt="SCB"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">SCB ไทยพาณิชย์</p>
+              <p class="text-gray-600 font-bold">4400479057</p>
+            </div>
+          </div>
+
+          <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="1400651859"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRieSzy1y0M5N_WYfSqppqlU57Y07tPjbgqF-aC2ADDedsik9l_&usqp=CAU"
+                class="w-8 h-8 object-contain"
+                alt="KTC"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">KTC กรุงไทย</p>
+              <p class="text-gray-600 font-bold">1400651859</p>
+            </div>
+          </div>
+
+          <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="1001433764"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://www.kasikornbank.com/SiteCollectionDocuments/about/img/logo/logo.png"
+                class="w-8 h-8 object-contain"
+                alt="Kbank"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">Kbank กสิกร</p>
+              <p class="text-gray-600 font-bold">1001433764</p>
+            </div>
+          </div>
+
+          <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="1294560501"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSlD3yL0FPK9Y3nEhjAiSbvWv521UESSVQznrggaoaDhHk5YyzO&usqp=CAU"
+                class="w-8 h-8 object-contain"
+                alt="BBL"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">BBL กรุงเทพ</p>
+              <p class="text-gray-600 font-bold">1294560501</p>              
+            </div>
+          </div>
+
+          <!-- <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="1259723838"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://i.pinimg.com/736x/ed/80/c6/ed80c67f6f6b484e3a09c85801a5e3c2.jpg"
+                class="w-8 h-8 object-contain"
+                alt="BAY"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">BAY กรุงศรี</p>
+              <p class="text-gray-600 font-bold">1259723838</p>
+            </div>
+          </div>
+
+          <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="9222888514"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://images.seeklogo.com/logo-png/40/2/ttb-logo-png_seeklogo-408469.png"
+                class="w-8 h-8 object-contain"
+                alt="TTB"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">TTB ทหารไทย</p>
+              <p class="text-gray-600 font-bold">9222888514</p>
+            </div>
+          </div> -->
+
+          <div
+            class="bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="0817410181"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTSP3q8goX-Cf6G0Ad_I3Yt5PA9fu8RNOz88huM-HYiZ2FV7aZV&usqp=CAU"
+                class="w-8 h-8 object-contain"
+                alt="True Wallet"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">True Wallet</p>
+              <p class="text-gray-600 font-bold">0817410181</p>
+            </div>
+          </div>
+
+          <div 
+            class="promptpay-card bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="0817410181"
+            data-title="BBL PromptPay"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://www.bot.or.th/content/dam/bot/icons/icon-thaiqr.png"
+                class="w-8 h-8 object-contain"
+                alt="promptpay"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">Promptpay BBL</p>
+              <p class="text-gray-600 font-bold">0817410181</p>
+            </div>
+          </div>
+
+          <div  
+            class="promptpay-card bank-option p-3 border rounded-lg flex items-center cursor-pointer"
+            data-account="3100500602071"
+            data-title="SCB PromptPay"
+          >
+            <div
+              class="w-12 h-12 flex-shrink-0 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden"
+            >
+              <img
+                src="https://www.bot.or.th/content/dam/bot/icons/icon-thaiqr.png"
+                class="w-8 h-8 object-contain"
+                alt="promptpay"
+              />
+            </div>
+            <div class="ml-4 flex-grow">
+              <p class="font-medium text-gray-800">Promptpay SCB</p>
+              <p class="text-gray-600 font-bold">3100500602071</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+          <button
+            id="copy-btn"
+            class="copy-btn bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg flex items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+              <path
+                d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+              />
+            </svg>
+            คัดลอกเลขบัญชี
+          </button>
+        </div>
+
+        <div
+          id="notification"
+          class="hidden notification fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-md flex items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span id="notification-text">คัดลอกเลขบัญชีแล้ว</span>
+        </div>
+      </div>
+      <footer class="bg-gray-800 text-white py-4 px-6">
+        <div class="container mx-auto text-center text-sm">
+          <p>Dev by Waroonporn © 2025</p>
+        </div>
+      </footer>
+    </div>
+
+  <!-- Modal -->
+  <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative">
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-600 hover:text-black text-6xl">&times;</button>
+      <h3 class="text-lg font-semibold mb-4 text-center">สแกนเพื่อชำระเงิน</h3><span class="spanbank text-md text-green-600"> </span> 
+      
+      <div class="mb-2">
+        <label for="titlepay" class="block text-sm font-medium text-gray-700 mb-1">รายละเอียด</label>
+        <input type="text" id="titlepay"  placeholder="รายละเอียด"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+      </div>
+      <div class="mb-2">
+        <label for="amountInput" class="block text-sm font-medium text-gray-700 mb-1">จำนวนเงิน (บาท)</label>
+        <input type="number" id="amountInput" min="0" step="0.01" placeholder="เช่น 150.00"
+          class="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300" />
+      </div>
+
+      <button id="updateQR" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full mb-4">อัปเดต QR</button>
+<!--                 <img
+            src="https://www.designil.com/wp-content/uploads/2020/04/prompt-pay-logo.png"
+            alt="PromptPay Logo"
+            class="mx-auto w-64 h-auto mb-2"
+          /> -->
+      <img id="qrImage" src="" alt="QR PromptPay" class="mx-auto w-64 h-64 object-contain border rounded">
+    </div>
+  </div>
+
+
+    <script>
+      
+
+      
+      document.addEventListener("DOMContentLoaded", async function () {
+
+    await liff.init({ liffId: "1657704109-5AwJQQl2" }); // 👈 ใส่ LIFF ID ของคุณที่นี่
+
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      return;
+    }
+
+    const profile = await liff.getProfile();
+    const userInfoEl = document.getElementById("user-info");
+
+    userInfoEl.innerHTML = `
+      <img src="${profile.pictureUrl}" alt="Profile" class="w-8 h-8 rounded-full">
+      <span class="text-sm">${profile.displayName}</span>
+    `;
+
+        const bankOptions = document.querySelectorAll(".bank-option");
+        const copyBtn = document.getElementById("copy-btn");
+        const notification = document.getElementById("notification");
+        const notificationText = document.getElementById("notification-text");
+        let selectedAccount = "0817410181";
+
+        bankOptions.forEach((option) => {
+          option.addEventListener("click", function () {
+            bankOptions.forEach((opt) => opt.classList.remove("selected"));
+
+            this.classList.add("selected");
+
+            selectedAccount = this.dataset.account;
+          });
+        });
+
+        copyBtn.addEventListener("click", function () {
+          const tempInput = document.createElement("input");
+          tempInput.value = selectedAccount;
+          document.body.appendChild(tempInput);
+
+          tempInput.select();
+          document.execCommand("copy");
+
+          document.body.removeChild(tempInput);
+
+          const selectedBank = document.querySelector(".bank-option.selected");
+          const bankName =
+            selectedBank.querySelector("p:first-child").textContent;
+
+          notificationText.textContent = `คัดลอกเลขบัญชี ${bankName} แล้ว`;
+          notification.classList.remove("hidden");
+
+          setTimeout(() => {
+            notification.classList.add("hidden");
+          }, 3000);
+        });
+
+      const promptPayCards = document.querySelectorAll(".promptpay-card");
+      const modal = document.getElementById("qrModal");
+      const closeBtn = document.getElementById("closeModal");
+      const amountInput = document.getElementById("amountInput");
+      const titlePay = document.getElementById("titlepay");
+      const updateBtn = document.getElementById("updateQR");
+      const qrImg = document.getElementById("qrImage");
+      const spanbank = document.querySelector(".spanbank")
+
+      let promptPayID = "";
+      let flexPayment  
+
+      promptPayCards.forEach((card) => {
+        card.addEventListener("click", (e) => {
+          const cardEl = e.currentTarget;
+          promptPayID = cardEl.dataset.account;
+          const titleBank = cardEl.dataset.title;
+          spanbank.textContent = titleBank
+          console.log("เลือก PromptPay ID:", promptPayID);
+          modal.classList.remove("hidden");
+          qrImg.src = `https://promptpay.io/${promptPayID}`;
+        });
+      });
+
+      closeBtn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+        amountInput.value = "";
+      });
+
+      updateBtn.addEventListener("click", () => {
+        const amount = parseFloat(amountInput.value);
+        const formattedAmount = amount.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        const titleBank = spanbank.textContent
+        if (!isNaN(amount) && amount > 0) {
+          qrImg.src = `https://promptpay.io/${promptPayID}/${amount}`;
+          flexPayment = [
+            {
+                "type": "flex",
+                "altText": "Pay for Gukkghu",
+                "contents": {
+                  "type": "bubble",
+                  "size": "mega",
+                  "hero": {
+                    "type": "image",
+                    "url": "https://res.cloudinary.com/gukkghu/image/upload/v1748876620/gukkghu/logo_gukkghu_dev_snmgyl.jpg",
+                    "size": "full",
+                    "aspectMode": "cover",
+                    "aspectRatio": "8:3"
+                  },                  
+                  "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "md",
+                        "spacing": "sm",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": ""+titlePay.value,
+                            "align": "center",
+                            "size": "xl",
+                          },
+                          {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "text": "TOTAL",
+                                "size": "xl",
+                                "color": "#555555",
+                                "weight": "bold"
+                              },
+                              {
+                                "type": "text",
+                                "text": ""+formattedAmount,
+                                "size": "xl",
+                                "color": "#111111",
+                                "align": "end",
+                                "weight": "bold"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "md"
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                          {
+                            "type": "image",
+                            "url": "https://www.figma.com/community/resource/4556e1d9-258f-43c2-a451-01cc6f317d3a/thumbnail",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "16:4"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "none",
+                        "spacing": "none",
+                        "contents": [
+                          {
+                            "type": "image",
+                            "url": `https://promptpay.io/${promptPayID}/${amount}`,
+                            "size": "full"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "md",
+                        "contents": [
+                          {
+                            "type": "button",
+                            "action": {
+                              "type": "clipboard",
+                              "label": "คัดลอกเลขบัญชี",
+                              "clipboardText": ""+promptPayID
+                            },
+                            "style": "primary",
+                            "height": "sm",
+                            "color": "#A294F9"
+                          }
+                        ]
+                      },
+                    ]
+                  },"footer": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "ขอบคุณมากครับ 😍",
+                      "align": "end",
+                      "color": "#FFFFFF"
+                    }
+                  ],
+                  "backgroundColor": "#7E5CAD"
+                },
+                "styles": {
+                  "footer": {
+                    "separator": false
+                  }
+                }
+              }
+            }
+          ]
+          
+          liff.shareTargetPicker(flexPayment)
+          
+          
+          
+        } else {
+          alert("กรุณากรอกจำนวนเงินให้ถูกต้อง");
+        }
+      });
+
+          
+
+      });
+    </script>
+  </body>
+</html>
