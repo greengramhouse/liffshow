@@ -362,72 +362,71 @@
       overlay.addEventListener("click", closeCartSidebar);
 
 checkoutBtn.addEventListener("click", function () {
-    alert("test")
-  // // เคลียร์รายการก่อนเติมใหม่
-  // checkoutItems.innerHTML = "";
+  // เคลียร์รายการก่อนเติมใหม่
+  checkoutItems.innerHTML = "";
 
-  // let subtotal = 0;   // ยอดรวมก่อนหักส่วนลดและ VAT
-  // let totalDiscount = 0; // รวมส่วนลด
+  let subtotal = 0;   // ยอดรวมก่อนหักส่วนลดและ VAT
+  let totalDiscount = 0; // รวมส่วนลด
 
-  // cart.forEach((item) => {
-  //   const originalPrice = item.originalPrice || item.price; // ราคาปกติ
-  //   const discount = originalPrice > item.price ? (originalPrice - item.price) * item.quantity : 0;
+  cart.forEach((item) => {
+    const originalPrice = item.originalPrice || item.price; // ราคาปกติ
+    const discount = originalPrice > item.price ? (originalPrice - item.price) * item.quantity : 0;
 
-  //   const itemTotal = item.price * item.quantity; // ราคาหลังลด * จำนวน
-  //   subtotal += itemTotal;
-  //   totalDiscount += discount;
+    const itemTotal = item.price * item.quantity; // ราคาหลังลด * จำนวน
+    subtotal += itemTotal;
+    totalDiscount += discount;
 
-  //   const checkoutItem = document.createElement("div");
-  //   checkoutItem.className = "flex justify-between items-center";
-  //   checkoutItem.innerHTML = `
-  //     <span class="text-coffee-800">${item.name} x ${item.quantity}</span>
-  //     <span class="text-coffee-800">฿${itemTotal.toFixed(2)}</span>
-  //   `;
-  //   checkoutItems.appendChild(checkoutItem);
-  // });
+    const checkoutItem = document.createElement("div");
+    checkoutItem.className = "flex justify-between items-center";
+    checkoutItem.innerHTML = `
+      <span class="text-coffee-800">${item.name} x ${item.quantity}</span>
+      <span class="text-coffee-800">฿${itemTotal.toFixed(2)}</span>
+    `;
+    checkoutItems.appendChild(checkoutItem);
+  });
 
-  // // คำนวณ VAT 7%
-  // const vat = subtotal * 0.07;
+  // คำนวณ VAT 7%
+  const vat = subtotal * 0.07;
 
-  // // ยอดสุทธิ (รวม VAT)
-  // const grandTotal = subtotal + vat;
+  // ยอดสุทธิ (รวม VAT)
+  const grandTotal = subtotal + vat;
 
-  // // แสดงผล
-  // checkoutTotal.innerHTML = `
-  //   <div class="flex justify-between">
-  //     <span>ยอดรวม (ไม่รวม VAT):</span>
-  //     <span>฿${subtotal.toFixed(2)}</span>
-  //   </div>
-  //   <div class="flex justify-between text-green-600">
-  //     <span>ส่วนลดทั้งหมด:</span>
-  //     <span>฿${totalDiscount.toFixed(2)}</span>
-  //   </div>
-  //   <div class="flex justify-between">
-  //     <span>VAT 7%:</span>
-  //     <span>฿${vat.toFixed(2)}</span>
-  //   </div>
-  //   <hr class="my-2 border-coffee-300" />
-  //   <div class="flex justify-between font-semibold text-lg">
-  //     <span>ยอดสุทธิที่ต้องชำระ:</span>
-  //     <span>฿${grandTotal.toFixed(2)}</span>
-  //   </div>
-  // `;
+  // แสดงผล
+  checkoutTotal.innerHTML = `
+    <div class="flex justify-between">
+      <span>ยอดรวม (ไม่รวม VAT):</span>
+      <span>฿${subtotal.toFixed(2)}</span>
+    </div>
+    <div class="flex justify-between text-green-600">
+      <span>ส่วนลดทั้งหมด:</span>
+      <span>฿${totalDiscount.toFixed(2)}</span>
+    </div>
+    <div class="flex justify-between">
+      <span>VAT 7%:</span>
+      <span>฿${vat.toFixed(2)}</span>
+    </div>
+    <hr class="my-2 border-coffee-300" />
+    <div class="flex justify-between font-semibold text-lg">
+      <span>ยอดสุทธิที่ต้องชำระ:</span>
+      <span>฿${grandTotal.toFixed(2)}</span>
+    </div>
+  `;
 
-  // // สร้าง QR Code ด้วย PromptPay.io
-  // const qrcodeContainer = document.getElementById("qrcode");
-  // qrcodeContainer.innerHTML = "";
+  // สร้าง QR Code ด้วย PromptPay.io
+  const qrcodeContainer = document.getElementById("qrcode");
+  qrcodeContainer.innerHTML = "";
 
-  // const phone = "0817410181"; // เปลี่ยนเป็นเบอร์ PromptPay ของคุณ
-  // const qrImg = document.createElement("img");
-  // qrImg.src = `https://promptpay.io/${phone}/${grandTotal.toFixed(2)}`;
-  // qrImg.alt = "PromptPay QR";
-  // qrcodeContainer.appendChild(qrImg);
+  const phone = "0817410181"; // เปลี่ยนเป็นเบอร์ PromptPay ของคุณ
+  const qrImg = document.createElement("img");
+  qrImg.src = `https://promptpay.io/${phone}/${grandTotal.toFixed(2)}`;
+  qrImg.alt = "PromptPay QR";
+  qrcodeContainer.appendChild(qrImg);
 
-  // // sendOrderSummaryToLINE(cart, subtotal, totalDiscount, vat, grandTotal, phone)
+  // sendOrderSummaryToLINE(cart, subtotal, totalDiscount, vat, grandTotal, phone)
 
-  // // แสดง modal
-  // checkoutModal.classList.remove("hidden");
-  // closeCartSidebar();
+  // แสดง modal
+  checkoutModal.classList.remove("hidden");
+  closeCartSidebar();
 });
 
 
