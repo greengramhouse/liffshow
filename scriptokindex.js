@@ -418,7 +418,7 @@ checkoutBtn.addEventListener("click", function () {
 
   const phone = "0817410181"; // เปลี่ยนเป็นเบอร์ PromptPay ของคุณ
   const qrImg = document.createElement("img");
-  qrImg.src = `https://promptpay.io/${phone}/${grandTotal}`;
+  qrImg.src = `https://promptpay.io/${phone}/${grandTotal.toFixed(2)}`;
   qrImg.alt = "PromptPay QR";
   qrcodeContainer.appendChild(qrImg);
 
