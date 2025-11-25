@@ -35,20 +35,133 @@
   <script>
    document.addEventListener('DOMContentLoaded', async function () {
       // function share(e){
-      liff.init({liffId: "1657704109-5AwJQQl2"}, function () {
+      liff.init({liffId: "1657704109-Em4mQQgD"}, function () {
         liff.ready.then(async() => {
           if (liff.isLoggedIn()) {
 
             var ss = getParameterByName("key")
             console.log("ss ",ss)
 
-            if (ss === "a4") {
-              var monthsend = getParameterByName("month")
-              console.log(monthsend)
-              let highlightedDates = fetchData(monthsend);
-              console.log(highlightedDates)
+            if (ss === "greensport") {
+              const flexgeensport = [{
+                type: "flex",
+                altText: "คุณมีไฟล์ PDF ใหม่",
+                contents: {
+  "type": "bubble",
+  "size": "giga",
+  "hero": {
+    "type": "image",
+    "url": "https://img2.pic.in.th/pic/9-12019f9aee42f3637.png",
+    "size": "full",
+    "aspectRatio": "27:35",
+    "aspectMode": "cover",
+    "action": {
+      "type": "uri",
+      "uri": "https://forms.office.com/Pages/ResponsePage.aspx?id=ksYPAANAcki5gur_hbq1w3q7GE1KhGpAsXT481ygZh9UN1ozVzBBSFRRUFczNEdaVEdZODA1QVlJOS4u&origin=QRCode"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กรีนสปอร์ต เชิญชวน",
+        "weight": "bold",
+        "size": "xl",
+        "color": "#FF6D1F"
+      },
+      {
+        "type": "text",
+        "text": "นักเรียนไทยงาม ประกวดคำขวัญ",
+        "weight": "bold",
+        "size": "xl",
+        "color": "#060771"
+      },
+      {
+        "type": "text",
+        "text": "กิจกรรมรณรงค์ต่อต้านยาเสพติด",
+        "weight": "bold",
+        "size": "xl",
+        "color": "#060771"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "lg",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ส่งคำขวัญ ภายใน:",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 2
+              },
+              {
+                "type": "text",
+                "text": "วันนี้ จนถึง 28 พฤศจิกายน 68",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 4
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ประกาศผล",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 2
+              },
+              {
+                "type": "text",
+                "text": "1 ธันวาคม 2568",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 4
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "height": "sm",
+        "action": {
+          "type": "uri",
+          "label": "ส่งคำขวัญที่นี่  คลิก!",
+          "uri": "https://forms.office.com/Pages/ResponsePage.aspx?id=ksYPAANAcki5gur_hbq1w3q7GE1KhGpAsXT481ygZh9UN1ozVzBBSFRRUFczNEdaVEdZODA1QVlJOS4u&origin=QRCode"
+        },
+        "color": "#FF6D1F"
+      }
+    ],
+    "flex": 0
+  }
+}
+              }]
 
-
+await shareflex(flexgeensport);
             }else if(ss === "pay") {
               setTimeout(() => {
                 window.location.href = "https://sharetargetok.glitch.me/payment.html";
